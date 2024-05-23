@@ -22,6 +22,7 @@ def neighbors(x_, y_):
                 (-1 < y2 < Y))]
 
 
+# returns flattened tuples of the x and y indices and the n value
 def iter_field(fld):
     return [(x_, y_, n) for x_, a_ in enumerate(fld) for y_, n in enumerate(a_)]
 
