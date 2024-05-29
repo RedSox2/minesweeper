@@ -31,7 +31,7 @@ class GridSquare:
         self.y = y
 
     def __str__(self):
-        return (self.value, self.x, self.y)
+        return f"{self.value}, {self.x}, {self.y}"
         
     def getNeighbors(self, X, Y):
         self.neighbors = [(x2, y2) for x2 in range(self.x - 1, self.x + 2)
