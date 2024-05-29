@@ -72,10 +72,6 @@ class Images:
 Images.scale(grid_interval-1)
 
 Grid.generateStartingGrid()
-for row in Grid.grid:
-    for col in row: 
-        print(col, end=" ; ")
-    print("")
 
 draw_grid(grid_interval*X, grid_interval*Y, grey_grid)
 
