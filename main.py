@@ -3,8 +3,6 @@ from classes import *
 
 grid_interval = 50
 
-
-
 def draw_grid(window_w, window_h, color):
     block_size = grid_interval  # Set the size of the grid block
     for width in range(0, window_w, block_size):
@@ -17,31 +15,6 @@ def iter_field(fld):
 
 pygame.init()
 
-class Images:
-    unopened = pygame.image.load("unopened.jpg")
-    flag = pygame.image.load("flag.jpg")
-    mine = pygame.image.load("mine.jpg")
-    squares = [
-
-        pygame.image.load("open.jpg"),
-        pygame.image.load('1.jpg'),
-        pygame.image.load('2.jpg'),
-        pygame.image.load('3.jpg'),
-        pygame.image.load('4.jpg'),
-        pygame.image.load('5.jpg'),
-        pygame.image.load('6.jpg'),
-        pygame.image.load('7.jpg'),
-        pygame.image.load('8.jpg')
-    ]
-    
-    def scale(grid_interval):
-        Images.unopened = pygame.transform.scale(Images.unopened, (grid_interval, grid_interval))
-        Images.flag = pygame.transform.scale(Images.flag, (grid_interval, grid_interval))
-        Images.mine = pygame.transform.scale(Images.mine, (grid_interval, grid_interval))
-        for i in range(len(Images.squares)):
-            Images.squares[i] = pygame.transform.scale(Images.squares[i], (grid_interval, grid_interval))
-
-Images.scale(grid_interval)
 end_time = 0
 
 X = Y = 22
@@ -71,6 +44,33 @@ win_rect.center = lose_rect.center = (window_width // 2, window_height // 2)
 
 grey_grid = (128, 128, 128)
 
+
+class Images:
+    unopened = pygame.image.load("unopened.jpg")
+    flag = pygame.image.load("flag.jpg")
+    mine = pygame.image.load("mine.jpg")
+    squares = [
+
+        pygame.image.load("open.jpg"),
+        pygame.image.load('1.jpg'),
+        pygame.image.load('2.jpg'),
+        pygame.image.load('3.jpg'),
+        pygame.image.load('4.jpg'),
+        pygame.image.load('5.jpg'),
+        pygame.image.load('6.jpg'),
+        pygame.image.load('7.jpg'),
+        pygame.image.load('8.jpg')
+    ]
+    
+    def scale(grid_interval):
+        Images.unopened = pygame.transform.scale(Images.unopened, (grid_interval, grid_interval))
+        Images.flag = pygame.transform.scale(Images.flag, (grid_interval, grid_interval))
+        Images.mine = pygame.transform.scale(Images.mine, (grid_interval, grid_interval))
+        for i in range(len(Images.squares)):
+            Images.squares[i] = pygame.transform.scale(Images.squares[i], (grid_interval, grid_interval))
+
+Images.scale(grid_interval)
+
 Grid.generateStartingGrid()
 for row in Grid.grid:
     for col in row: 
@@ -79,11 +79,13 @@ for row in Grid.grid:
 
 draw_grid(grid_interval*22, grid_interval*22, grey_grid)
 
-for x, y, n in iter_field(Grid.grid):
-    if n.value == -1:
-        screen.blit(Images.mine, (x*grid_interval, y*grid_interval))
-    else:
-        screen.blit(Images.squares[n.value], (x*grid_interval, y*grid_interval))
+# for x, y, n in iter_field(Grid.grid):
+#     if n.value == -1:
+#         screen.blit(Images.mine, (x*grid_interval, y*grid_interval))
+#     else:
+#         screen.blit(Images.squares[n.value], (x*grid_interval, y*grid_interval))
+
+screen.blit(Images.unopened, (10, 10))
 
 while True:
     pass
