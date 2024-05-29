@@ -103,6 +103,7 @@ done = False
 won = False
 check_x = None
 check_y = None
+
 while 1:
 
     if failed:
