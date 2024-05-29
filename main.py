@@ -1,7 +1,7 @@
 import pygame
 from classes import *
 
-grid_interval = 50
+grid_interval = 40
 
 def draw_grid(window_w, window_h, color):
     block_size = grid_interval  # Set the size of the grid block
@@ -17,9 +17,9 @@ pygame.init()
 
 end_time = 0
 
-X = Y = 22
+X = Y = 20
 
-center = (0, 0)
+center = (1, 1)
 
 window_width = X*grid_interval
 window_height = Y*grid_interval
@@ -69,7 +69,7 @@ class Images:
         for i in range(len(Images.squares)):
             Images.squares[i] = pygame.transform.scale(Images.squares[i], (grid_interval, grid_interval))
 
-Images.scale(grid_interval)
+Images.scale(grid_interval-1)
 
 Grid.generateStartingGrid()
 for row in Grid.grid:
@@ -77,15 +77,15 @@ for row in Grid.grid:
         print(col, end=" ; ")
     print("")
 
-draw_grid(grid_interval*22, grid_interval*22, grey_grid)
+draw_grid(grid_interval*X, grid_interval*Y, grey_grid)
 
-# for x, y, n in iter_field(Grid.grid):
-#     if n.value == -1:
-#         screen.blit(Images.mine, (x*grid_interval, y*grid_interval))
-#     else:
-#         screen.blit(Images.squares[n.value], (x*grid_interval, y*grid_interval))
-
-screen.blit(Images.unopened, (10, 10))
+for row in range(0+center[0],20+center[1]):
+    for col in range(0+center[0],20+center[1]):
+        if (Grid.grid[row][col].value == -1):
+            screen.blit(Images.mine, ((col-center[0])*grid_interval, (row-center[0])*grid_interval))
+        else: 
+            screen.blit(Images.squares[Grid.grid[row][col].value], ((col-center[0])*grid_interval, (row-center[0])*grid_interval))
+pygame.display.update()
 
 while True:
     pass
