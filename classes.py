@@ -1,4 +1,5 @@
 import pygame
+import random
 
 class Images:
     unopened = pygame.image.load("unopened.jpg")
@@ -37,3 +38,30 @@ class GridSquare:
                 (self.x != x2 or self.y != y2) and
                 (-1 < x2 < X) and
                 (-1 < y2 < Y))]
+        
+class Grid:
+    grid = []
+
+    def generateStartingGrid(density=0.2):
+        for row in range(22):
+            gridRow = []
+            for col in range(22):
+                if (random.random < density):
+                    #-1 == mine
+                    gridRow.append(GridSquare(-1, row, col))
+                else:
+                    gridRow.append(GridSquare(0, row, col))
+
+    def addTopRow():
+        pass
+    
+    def addBottomRow():
+        pass
+
+    def addLeftRow():
+        pass
+
+    def addRightRow():
+        pass
+
+    
