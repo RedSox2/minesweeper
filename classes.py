@@ -6,6 +6,7 @@ class Images:
     flag = pygame.image.load("flag.jpg")
     mine = pygame.image.load("mine.jpg")
     squares = [
+        
         pygame.image.load("open.jpg"),
         pygame.image.load('1.jpg'),
         pygame.image.load('2.jpg'),
