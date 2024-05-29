@@ -1,7 +1,7 @@
 import pygame
 from classes import *
 
-grid_interval = 50
+grid_interval = 40
 
 
 
@@ -41,15 +41,15 @@ class Images:
         for i in range(len(Images.squares)):
             Images.squares[i] = pygame.transform.scale(Images.squares[i], (grid_interval, grid_interval))
 
-Images.scale(grid_interval)
+Images.scale(grid_interval-1)
 end_time = 0
 
 X = Y = 22
 
-center = (0, 0)
+center = (1, 1)
 
-window_width = X*grid_interval
-window_height = Y*grid_interval
+window_width = (X-2)*grid_interval
+window_height = (Y-2)*grid_interval
 
 screen = pygame.display.set_mode((window_width, window_height))
 pygame.display.set_caption("MINESWEEPER")
@@ -77,13 +77,22 @@ for row in Grid.grid:
         print(col, end=" ; ")
     print("")
 
-draw_grid(grid_interval*22, grid_interval*22, grey_grid)
+draw_grid(grid_interval*20, grid_interval*20, grey_grid)
 
+for row in range(0+center[0],20+center[1]):
+    for col in range(0+center[0],20+center[1]):
+        if (Grid.grid[row][col].value == -1):
+            screen.blit(Images.mine, ((col-1)*grid_interval, (row-1)*grid_interval))
+        else:
+            screen.blit(Images.squares[Grid.grid[row][col].value], ((col-1)*grid_interval, (row-1)*grid_interval))
+'''
 for x, y, n in iter_field(Grid.grid):
     if n.value == -1:
         screen.blit(Images.mine, (x*grid_interval, y*grid_interval))
     else:
         screen.blit(Images.squares[n.value], (x*grid_interval, y*grid_interval))
+    #screen.blit(Images.unopened, (x*grid_interval, y*grid_interval))'''
+pygame.display.update()
 
 while True:
     pass
