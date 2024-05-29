@@ -56,6 +56,16 @@ class Grid:
                     gridRow.append(GridSquare(0, row, col))
             Grid.grid.append(gridRow)
 
+        for row in range(1,21):
+            for col in range(1,21):
+                if (Grid.grid[row][col].value != -1):
+                    Grid.grid[row][col].getNeighbors(22, 22)
+                    numMines = 0
+                    for nx, ny in Grid.grid[row][col].neighbors:
+                        if Grid.grid[nx][ny].value == -1:
+                            numMines += 1
+                    Grid.grid[row][col].value = numMines
+
     def addTopRow():
         pass
     
