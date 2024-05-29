@@ -18,17 +18,20 @@ class Images:
     ]
     
     def scale(grid_interval):
-        unopened = pygame.transform.scale(unopened, (grid_interval, grid_interval))
-        flag = pygame.transform.scale(flag, (grid_interval, grid_interval))
-        mine = pygame.transform.scale(mine, (grid_interval, grid_interval))
-        for i in range(len(squares)):
-            squares[i] = pygame.transform.scale(squares[i], (grid_interval, grid_interval))
+        unopened = pygame.transform.scale(Images.unopened, (grid_interval, grid_interval))
+        flag = pygame.transform.scale(Images.flag, (grid_interval, grid_interval))
+        mine = pygame.transform.scale(Images.mine, (grid_interval, grid_interval))
+        for i in range(len(Images.squares)):
+            Images.squares[i] = pygame.transform.scale(Images.squares[i], (grid_interval, grid_interval))
 
 class GridSquare:
     def __init__(self, value, x, y):
         self.value = value
         self.x = x
         self.y = y
+
+    def __str__(self):
+        return (self.value, self.x, self.y)
         
     def getNeighbors(self, X, Y):
         self.neighbors = [(x2, y2) for x2 in range(self.x - 1, self.x + 2)
@@ -46,11 +49,12 @@ class Grid:
         for row in range(22):
             gridRow = []
             for col in range(22):
-                if (random.random < density):
+                if (random.random() < density):
                     #-1 == mine
                     gridRow.append(GridSquare(-1, row, col))
                 else:
                     gridRow.append(GridSquare(0, row, col))
+            Grid.grid.append(gridRow)
 
     def addTopRow():
         pass

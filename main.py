@@ -46,8 +46,7 @@ win_rect.center = lose_rect.center = (window_width // 2, window_height // 2)
 
 grey_grid = (128, 128, 128)
 
-
-
 Grid.generateStartingGrid()
+print(Grid.grid)
 for row in Grid.grid:
     print(row)
