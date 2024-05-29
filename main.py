@@ -51,3 +51,14 @@ for row in Grid.grid:
     for col in row: 
         print(col, end=" ; ")
     print("")
+
+draw_grid(grid_interval*22, grid_interval*22, grey_grid)
+
+for x, y, n in iter_field(Grid.grid):
+    if n.value == -1:
+        screen.blit(Images.mine, (x*grid_interval, y*grid_interval))
+    else:
+        screen.blit(Images.squares[n.value], (x*grid_interval, y*grid_interval))
+
+while True:
+    pass
