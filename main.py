@@ -91,14 +91,13 @@ while True:
             quit()
         
         if event.type == pygame.MOUSEBUTTONDOWN:
-            selectedCol = event.pos[0]//grid_interval - center[0]
-            selectedRow = event.pos[1]//grid_interval - center[1]
-
+            selectedCol = event.pos[0]//grid_interval + center[0]
+            selectedRow = event.pos[1]//grid_interval + center[1]
+            
             if event.button == 1:
                 selectedSquareValue = Grid.grid[selectedRow][selectedCol].value
                 if selectedSquareValue == -1:
-                    screen.blit(Images.mine, ((selectedCol + center[0])*grid_interval, (selectedRow + center[1])*grid_interval))
+                    screen.blit(Images.mine, ((selectedCol - center[0])*grid_interval, (selectedRow - center[1])*grid_interval))
                 else:
-                    screen.blit(Images.squares[selectedSquareValue], ((selectedCol + center[0])*grid_interval, (selectedRow + center[1])*grid_interval))
-                print("clicked")
+                    screen.blit(Images.squares[selectedSquareValue], ((selectedCol - center[0])*grid_interval, (selectedRow - center[1])*grid_interval))
     pygame.display.update()
