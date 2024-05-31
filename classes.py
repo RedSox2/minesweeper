@@ -6,6 +6,7 @@ class GridSquare:
         self.value = value
         self.x = x
         self.y = y
+        
 
     def __str__(self):
         return f"{self.value}, {self.x}, {self.y}"
@@ -21,13 +22,16 @@ class GridSquare:
         
 class Grid:
     grid = []
+    size = 22
+    center = (1,1)
+
 
     def generateStartingGrid(density=0.2):
-        for row in range(22):
+        for row in range(Grid.size):
             gridRow = []
-            for col in range(22):
+            for col in range(Grid.size):
                 if (random.random() < density):
-                    #-1 == mine
+                    # -1 == mine
                     gridRow.append(GridSquare(-1, row, col))
                 else:
                     gridRow.append(GridSquare(0, row, col))
@@ -36,7 +40,7 @@ class Grid:
         for row in range(1,21):
             for col in range(1,21):
                 if (Grid.grid[row][col].value != -1):
-                    Grid.grid[row][col].getNeighbors(22, 22)
+                    Grid.grid[row][col].getNeighbors(Grid.size, Grid.size)
                     numMines = 0
                     for nx, ny in Grid.grid[row][col].neighbors:
                         if Grid.grid[nx][ny].value == -1:
@@ -47,7 +51,10 @@ class Grid:
         pass
     
     def addBottomRow():
+        # newRow = []
         pass
+        
+
 
     def addLeftRow():
         pass

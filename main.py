@@ -19,8 +19,6 @@ end_time = 0
 
 X = Y = 20
 
-center = (1, 1)
-
 window_width = X*grid_interval
 window_height = Y*grid_interval
 
@@ -75,13 +73,13 @@ Grid.generateStartingGrid()
 
 draw_grid(grid_interval*X, grid_interval*Y, grey_grid)
 
-for row in range(0+center[0],20+center[1]):
-    for col in range(0+center[0],20+center[1]):
+for row in range(0+Grid.center[0],20+Grid.center[1]):
+    for col in range(0+Grid.center[0],20+Grid.center[1]):
         # if (Grid.grid[row][col].value == -1):
-        #     screen.blit(Images.mine, ((col-center[0])*grid_interval, (row-center[0])*grid_interval))
+        #     screen.blit(Images.mine, ((col-Grid.center[0])*grid_interval, (row-Grid.center[0])*grid_interval))
         # else: 
-        #     screen.blit(Images.squares[Grid.grid[row][col].value], ((col-center[0])*grid_interval, (row-center[0])*grid_interval))
-        screen.blit(Images.unopened, ((col-center[0])*grid_interval, (row-center[0])*grid_interval))
+        #     screen.blit(Images.squares[Grid.grid[row][col].value], ((col-Grid.center[0])*grid_interval, (row-Grid.center[0])*grid_interval))
+        screen.blit(Images.unopened, ((col-Grid.center[0])*grid_interval, (row-Grid.center[0])*grid_interval))
 pygame.display.update()
 
 while True:
@@ -91,13 +89,13 @@ while True:
             quit()
         
         if event.type == pygame.MOUSEBUTTONDOWN:
-            selectedCol = event.pos[0]//grid_interval + center[0]
-            selectedRow = event.pos[1]//grid_interval + center[1]
+            selectedCol = event.pos[0]//grid_interval + Grid.center[0]
+            selectedRow = event.pos[1]//grid_interval + Grid.center[1]
             
             if event.button == 1:
                 selectedSquareValue = Grid.grid[selectedRow][selectedCol].value
                 if selectedSquareValue == -1:
-                    screen.blit(Images.mine, ((selectedCol - center[0])*grid_interval, (selectedRow - center[1])*grid_interval))
+                    screen.blit(Images.mine, ((selectedCol - Grid.center[0])*grid_interval, (selectedRow - Grid.center[1])*grid_interval))
                 else:
-                    screen.blit(Images.squares[selectedSquareValue], ((selectedCol - center[0])*grid_interval, (selectedRow - center[1])*grid_interval))
+                    screen.blit(Images.squares[selectedSquareValue], ((selectedCol - Grid.center[0])*grid_interval, (selectedRow - Grid.center[1])*grid_interval))
     pygame.display.update()
