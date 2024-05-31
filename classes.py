@@ -10,7 +10,7 @@ class GridSquare:
         
 
     def __str__(self):
-        return f"{self.value}, {self.x}, {self.y}"
+        return f"{self.current}, {self.value}, {self.x}, {self.y}"
         
     def getNeighbors(self, X, Y):
         self.neighbors = [(x2, y2) for x2 in range(self.x - 1, self.x + 2)
@@ -63,6 +63,7 @@ class Grid:
                 newRow.append(GridSquare(-2, -2, col, row))
 
         Grid.grid.append(newRow)
+
         for col in range(len(Grid.grid[-2])):
             if (Grid.grid[row][col].value != -1):
                     Grid.grid[row][col].getNeighbors(Grid.size[0], Grid.size[1])

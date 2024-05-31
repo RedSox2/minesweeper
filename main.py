@@ -44,9 +44,7 @@ grey_grid = (128, 128, 128)
 
 
 class Images:
-    unopened = pygame.image.load("unopened.jpg")
-    flag = pygame.image.load("flag.jpg")
-    mine = pygame.image.load("mine.jpg")
+    
     squares = [
 
         pygame.image.load("open.jpg"),
@@ -57,13 +55,15 @@ class Images:
         pygame.image.load('5.jpg'),
         pygame.image.load('6.jpg'),
         pygame.image.load('7.jpg'),
-        pygame.image.load('8.jpg')
-    ]
+        pygame.image.load('8.jpg'),
+
+        pygame.image.load("flag.jpg"),
+        pygame.image.load("unopened.jpg"),
+        pygame.image.load("mine.jpg")
+
+        ]
     
     def scale(grid_interval):
-        Images.unopened = pygame.transform.scale(Images.unopened, (grid_interval, grid_interval))
-        Images.flag = pygame.transform.scale(Images.flag, (grid_interval, grid_interval))
-        Images.mine = pygame.transform.scale(Images.mine, (grid_interval, grid_interval))
         for i in range(len(Images.squares)):
             Images.squares[i] = pygame.transform.scale(Images.squares[i], (grid_interval, grid_interval))
 
@@ -72,15 +72,6 @@ Images.scale(grid_interval-1)
 Grid.generateStartingGrid()
 
 draw_grid(grid_interval*X, grid_interval*Y, grey_grid)
-
-for row in range(0+Grid.center[0],20+Grid.center[1]):
-    for col in range(0+Grid.center[0],20+Grid.center[1]):
-        # if (Grid.grid[row][col].value == -1):
-        #     screen.blit(Images.mine, ((col-Grid.center[0])*grid_interval, (row-Grid.center[0])*grid_interval))
-        # else: 
-        #     screen.blit(Images.squares[Grid.grid[row][col].value], ((col-Grid.center[0])*grid_interval, (row-Grid.center[0])*grid_interval))
-        screen.blit(Images.unopened, ((col-Grid.center[0])*grid_interval, (row-Grid.center[0])*grid_interval))
-pygame.display.update()
 
 while True:
     for event in pygame.event.get():
@@ -106,16 +97,16 @@ while True:
             
             if event.button == 1:
                 print("clicked")
+                print(selectedRow, selectedCol)
+                print(Grid.center[1])
+                print('\n')
 
                 Grid.grid[selectedRow][selectedCol].current = Grid.grid[selectedRow][selectedCol].value
-                
+    debRows = []         
+    for row in range(0+Grid.center[1],20+Grid.center[1]):
+        debRows.append(row)
+        for col in range(0+Grid.center[0],20+Grid.center[0]):
+            screen.blit(Images.squares[Grid.grid[row][col].current], ((col-Grid.center[0])*grid_interval, (row-Grid.center[1])*grid_interval))
 
-    for row in range(0+Grid.center[0],20+Grid.center[1]):
-        for col in range(0+Grid.center[0],20+Grid.center[1]):
-            if (Grid.grid[row][col].current == -1):
-                screen.blit(Images.mine, ((col-Grid.center[0])*grid_interval, (row-Grid.center[0])*grid_interval))
-            elif (Grid.grid[row][col].current == -2):
-                screen.blit(Images.unopened, ((col-Grid.center[0])*grid_interval, (row-Grid.center[0])*grid_interval))
-            else: 
-                screen.blit(Images.squares[Grid.grid[row][col].value], ((col-Grid.center[0])*grid_interval, (row-Grid.center[0])*grid_interval))
+    print(debRows)
     pygame.display.update()
