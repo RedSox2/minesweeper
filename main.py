@@ -95,10 +95,4 @@ for x, y, n in iter_field(Grid.grid):
 pygame.display.update()
 
 while True:
-<<<<<<< HEAD
     pass
-
-print("done")
-=======
-    pass
->>>>>>> parent of bc01a3c (Merge branch 'main' of https://github.com/RedSox2/minesweeper)
