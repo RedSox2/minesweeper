@@ -88,6 +88,18 @@ while True:
             pygame.quit()
             quit()
         
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_w:
+                Grid.addTopRow()
+            if event.key == pygame.K_a:
+                Grid.addLeftRow()
+            if event.key == pygame.K_s:
+                Grid.addBottomRow()
+                Grid.center = (Grid.center[0], Grid.center[1] + 1)
+            if event.key == pygame.K_d:
+                Grid.addRightRow()
+                Grid.center = (Grid.center[0] + 1, Grid.center[1])
+
         if event.type == pygame.MOUSEBUTTONDOWN:
             selectedCol = event.pos[0]//grid_interval + Grid.center[0]
             selectedRow = event.pos[1]//grid_interval + Grid.center[1]
