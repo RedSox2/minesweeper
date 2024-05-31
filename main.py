@@ -107,11 +107,8 @@ while True:
             if event.button == 1:
                 print("clicked")
 
-                selectedSquareValue = Grid.grid[selectedRow][selectedCol].value
-                if selectedSquareValue == -1:
-                    screen.blit(Images.mine, ((selectedCol - Grid.center[0])*grid_interval, (selectedRow - Grid.center[1])*grid_interval))
-                else:
-                    screen.blit(Images.squares[selectedSquareValue], ((selectedCol - Grid.center[0])*grid_interval, (selectedRow - Grid.center[1])*grid_interval))
+                Grid.grid[selectedRow][selectedCol].current = Grid.grid[selectedRow][selectedCol].value
+                
 
     for row in range(0+Grid.center[0],20+Grid.center[1]):
         for col in range(0+Grid.center[0],20+Grid.center[1]):
