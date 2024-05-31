@@ -94,20 +94,31 @@ while True:
             if event.key == pygame.K_a:
                 Grid.addLeftRow()
             if event.key == pygame.K_s:
+                print("typed")
+
                 Grid.addBottomRow()
-                Grid.center = (Grid.center[0], Grid.center[1] + 1)
             if event.key == pygame.K_d:
                 Grid.addRightRow()
-                Grid.center = (Grid.center[0] + 1, Grid.center[1])
 
         if event.type == pygame.MOUSEBUTTONDOWN:
             selectedCol = event.pos[0]//grid_interval + Grid.center[0]
             selectedRow = event.pos[1]//grid_interval + Grid.center[1]
             
             if event.button == 1:
+                print("clicked")
+
                 selectedSquareValue = Grid.grid[selectedRow][selectedCol].value
                 if selectedSquareValue == -1:
                     screen.blit(Images.mine, ((selectedCol - Grid.center[0])*grid_interval, (selectedRow - Grid.center[1])*grid_interval))
                 else:
                     screen.blit(Images.squares[selectedSquareValue], ((selectedCol - Grid.center[0])*grid_interval, (selectedRow - Grid.center[1])*grid_interval))
+
+    for row in range(0+Grid.center[0],20+Grid.center[1]):
+        for col in range(0+Grid.center[0],20+Grid.center[1]):
+            if (Grid.grid[row][col].current == -1):
+                screen.blit(Images.mine, ((col-Grid.center[0])*grid_interval, (row-Grid.center[0])*grid_interval))
+            elif (Grid.grid[row][col].current == -2):
+                screen.blit(Images.unopened, ((col-Grid.center[0])*grid_interval, (row-Grid.center[0])*grid_interval))
+            else: 
+                screen.blit(Images.squares[Grid.grid[row][col].value], ((col-Grid.center[0])*grid_interval, (row-Grid.center[0])*grid_interval))
     pygame.display.update()
