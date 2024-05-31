@@ -96,3 +96,5 @@ pygame.display.update()
 
 while True:
     pass
+
+print("finished")
