@@ -69,7 +69,7 @@ class Images:
 
 Images.scale(grid_interval-1)
 
-Grid.generateStartingGrid()
+Grid.generateStartingGrid(.3)
 
 draw_grid(grid_interval*X, grid_interval*Y, grey_grid)
 
@@ -85,7 +85,7 @@ while True:
             if event.key == pygame.K_a:
                 Grid.addLeftRow()
             if event.key == pygame.K_s:
-                print("typed")
+                # print("typed")
 
                 Grid.addBottomRow()
             if event.key == pygame.K_d:
@@ -96,17 +96,10 @@ while True:
             selectedRow = event.pos[1]//grid_interval + Grid.center[1]
             
             if event.button == 1:
-                print("clicked")
-                print(selectedRow, selectedCol)
-                print(Grid.center[1])
-                print('\n')
-
                 Grid.grid[selectedRow][selectedCol].current = Grid.grid[selectedRow][selectedCol].value
-    debRows = []         
-    for row in range(0+Grid.center[1],20+Grid.center[1]):
-        debRows.append(row)
-        for col in range(0+Grid.center[0],20+Grid.center[0]):
-            screen.blit(Images.squares[Grid.grid[row][col].current], ((col-Grid.center[0])*grid_interval, (row-Grid.center[1])*grid_interval))
 
-    print(debRows)
+    for row in range(0+Grid.center[1],20+Grid.center[1]):
+        for col in range(0+Grid.center[0],20+Grid.center[0]):
+            screen.blit(Images.squares[Grid.grid[row][col].value], ((col-Grid.center[0])*grid_interval, (row-Grid.center[1])*grid_interval))
+
     pygame.display.update()
