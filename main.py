@@ -29,6 +29,40 @@ def clearSquares(square: GridSquare, seen: set[GridSquare], x, y):
             neighborSquare.current = neighborSquare.value
     return 
 
+
+def lost():
+    score = 0
+    for row in range(len(Grid.grid)):
+        for col, square in enumerate(Grid.grid[row]):
+            if square.current == -3:
+                if square.value == -1:
+                    score += 1
+                else:
+                    score -= 1
+            elif square.current != -2:
+                score += 1
+    print(f"Your score was: {score}")
+
+    score = time_font.render(f"Your score was: {score}", True, lose_color)
+    score_rect = score.get_rect()
+    score_rect.center = (window_width // 2, window_height // 2)
+
+    for row in range(0+Grid.center[1],20+Grid.center[1]):
+        for col in range(0+Grid.center[0],20+Grid.center[0]):
+            if Grid.grid[row][col].value == -1:
+                screen.blit(Images.squares[-1], ((col-Grid.center[0])*grid_interval, (row-Grid.center[1])*grid_interval))
+            else:
+                screen.blit(Images.squares[Grid.grid[row][col].current], ((col-Grid.center[0])*grid_interval, (row-Grid.center[1])*grid_interval))
+
+    screen.blit(lose, lose_rect)
+    screen.blit(score, score_rect)
+    pygame.display.update()
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+
 pygame.init()
 
 end_time = 0
@@ -45,19 +79,15 @@ font_size = 350*window_height//1440
 font = pygame.font.Font("8bit.ttf", font_size)
 time_font = pygame.font.Font("8bit.ttf", font_size//3)
 
-win_color = (255, 255, 255)
-lose_color = (255, 0, 0)
+lose_color = (200, 0, 0)
 
-win = font.render("You Win :D", False, win_color)
-lose = font.render("You Lost :(", False, lose_color)
+lose = font.render("The End!", True, lose_color)
 
-win_rect = win.get_rect()
 lose_rect = lose.get_rect()
 
-win_rect.center = lose_rect.center = (window_width // 2, window_height // 2)
+lose_rect.center = (window_width // 2, window_height // 3)
 
 grey_grid = (128, 128, 128)
-
 
 class Images:
     
@@ -115,8 +145,11 @@ while True:
                 if (selectedSquare := Grid.grid[selectedRow][selectedCol]).current == -2:
                     if selectedSquare.value == 0:
                         clearSquares(selectedSquare, set(), selectedCol, selectedRow)
+                    elif selectedSquare.value == -1: 
+                      lost()  
                     else:
                         selectedSquare.current = Grid.grid[selectedRow][selectedCol].value
+                
 
             elif event.button == 3:
                 if (selectedSquare := Grid.grid[selectedRow][selectedCol]).current == -3:
@@ -126,6 +159,6 @@ while True:
 
     for row in range(0+Grid.center[1],20+Grid.center[1]):
         for col in range(0+Grid.center[0],20+Grid.center[0]):
-            screen.blit(Images.squares[Grid.grid[row][col].value], ((col-Grid.center[0])*grid_interval, (row-Grid.center[1])*grid_interval))
+            screen.blit(Images.squares[Grid.grid[row][col].current], ((col-Grid.center[0])*grid_interval, (row-Grid.center[1])*grid_interval))
 
     pygame.display.update()
