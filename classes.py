@@ -50,6 +50,7 @@ class Grid:
         if (Grid.center[1] > 1):
             Grid.center[1] -= 1
         else:
+            Grid.size[1] += 1
             newRow = []
             row = 1
             for col in range(len(Grid.grid[-1])):
@@ -58,7 +59,7 @@ class Grid:
                 else:
                     newRow.append(GridSquare(-2, -2))
 
-            Grid.grid.insert(1, newRow)
+            Grid.grid.insert(0, newRow)
 
             for col in range(1, len(Grid.grid[-2])-1):
                 if (Grid.grid[row][col].value != -1):
