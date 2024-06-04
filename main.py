@@ -13,16 +13,16 @@ def draw_grid(window_w, window_h, color):
 def iter_field(fld):
     return [(x_, y_, n) for x_, a_ in enumerate(fld) for y_, n in enumerate(a_)]
 
-def clearSquares(square: GridSquare, seen: set[GridSquare]):
+def clearSquares(square: GridSquare, seen: set[GridSquare], x, y):
     square.current = square.value
     seen = set(seen)
     seen.add(square)
-    square.getNeighbors(Grid.size[0], Grid.size[1])
+    square.getNeighbors(Grid.size[0], Grid.size[1], x, y)
     for ncol, nrow in square.neighbors:
         
         if (neighborSquare := Grid.grid[nrow][ncol]).value == 0 and neighborSquare not in seen:
             seen.add(neighborSquare)
-            clearSquares(neighborSquare, seen)
+            clearSquares(neighborSquare, seen, ncol, nrow)
         else: 
             seen.add(neighborSquare := Grid.grid[nrow][ncol])
             print("clearing")
@@ -114,7 +114,7 @@ while True:
             if event.button == 1:
                 if (selectedSquare := Grid.grid[selectedRow][selectedCol]).current == -2:
                     if selectedSquare.value == 0:
-                        clearSquares(selectedSquare, set())
+                        clearSquares(selectedSquare, set(), selectedCol, selectedRow)
                     else:
                         selectedSquare.current = Grid.grid[selectedRow][selectedCol].value
 
