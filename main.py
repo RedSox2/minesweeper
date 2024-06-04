@@ -13,6 +13,20 @@ def draw_grid(window_w, window_h, color):
 def iter_field(fld):
     return [(x_, y_, n) for x_, a_ in enumerate(fld) for y_, n in enumerate(a_)]
 
+def clearSquares(square: GridSquare, seen: set[GridSquare]):
+    square.current = square.value
+    seen = set(seen)
+    seen.add(square)
+    square.getNeighbors(Grid.size[0], Grid.size[1])
+    for ncol, nrow in square.neighbors:
+        seen.add(neighborSquare := Grid.grid[nrow][ncol])
+        if neighborSquare.value == 0 and neighborSquare not in seen:
+            clearSquares(neighborSquare, seen)
+        else: 
+            print("clearing")
+            neighborSquare.current = neighborSquare.value
+    return 
+
 pygame.init()
 
 end_time = 0
@@ -69,7 +83,7 @@ class Images:
 
 Images.scale(grid_interval-1)
 
-Grid.generateStartingGrid(.3)
+Grid.generateStartingGrid(.2)
 
 draw_grid(grid_interval*X, grid_interval*Y, grey_grid)
 
@@ -96,10 +110,25 @@ while True:
             selectedRow = event.pos[1]//grid_interval + Grid.center[1]
             
             if event.button == 1:
-                Grid.grid[selectedRow][selectedCol].current = Grid.grid[selectedRow][selectedCol].value
+                if (selectedSquare := Grid.grid[selectedRow][selectedCol]).current == -2:
+                    if selectedSquare.value == 0:
+                        clearSquares(selectedSquare, set())
+                    else:
+                        selectedSquare.current = Grid.grid[selectedRow][selectedCol].value
+                elif selectedSquare != -3:
+                    selectedSquare.getNeighbors(Grid.size[0], Grid.size[1])
+                    for ncol, nrow in selectedSquare.neighbors:
+                        Grid.grid[nrow][ncol].current = Grid.grid[nrow][ncol].value if Grid.grid[nrow][ncol].current != -3 else -3
+
+
+            elif event.button == 3:
+                if (selectedSquare := Grid.grid[selectedRow][selectedCol]).current == -3:
+                    selectedSquare.current = -2
+                else: 
+                    selectedSquare.current = -3
 
     for row in range(0+Grid.center[1],20+Grid.center[1]):
         for col in range(0+Grid.center[0],20+Grid.center[0]):
-            screen.blit(Images.squares[Grid.grid[row][col].value], ((col-Grid.center[0])*grid_interval, (row-Grid.center[1])*grid_interval))
+            screen.blit(Images.squares[Grid.grid[row][col].current], ((col-Grid.center[0])*grid_interval, (row-Grid.center[1])*grid_interval))
 
     pygame.display.update()
