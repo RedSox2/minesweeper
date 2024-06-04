@@ -19,10 +19,12 @@ def clearSquares(square: GridSquare, seen: set[GridSquare]):
     seen.add(square)
     square.getNeighbors(Grid.size[0], Grid.size[1])
     for ncol, nrow in square.neighbors:
-        seen.add(neighborSquare := Grid.grid[nrow][ncol])
-        if neighborSquare.value == 0 and neighborSquare not in seen:
+        
+        if (neighborSquare := Grid.grid[nrow][ncol]).value == 0 and neighborSquare not in seen:
+            seen.add(neighborSquare)
             clearSquares(neighborSquare, seen)
         else: 
+            seen.add(neighborSquare := Grid.grid[nrow][ncol])
             print("clearing")
             neighborSquare.current = neighborSquare.value
     return 
@@ -115,11 +117,6 @@ while True:
                         clearSquares(selectedSquare, set())
                     else:
                         selectedSquare.current = Grid.grid[selectedRow][selectedCol].value
-                elif selectedSquare != -3:
-                    selectedSquare.getNeighbors(Grid.size[0], Grid.size[1])
-                    for ncol, nrow in selectedSquare.neighbors:
-                        Grid.grid[nrow][ncol].current = Grid.grid[nrow][ncol].value if Grid.grid[nrow][ncol].current != -3 else -3
-
 
             elif event.button == 3:
                 if (selectedSquare := Grid.grid[selectedRow][selectedCol]).current == -3:
