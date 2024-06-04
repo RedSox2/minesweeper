@@ -1,4 +1,3 @@
-import pygame
 import random
 
 class GridSquare:
@@ -52,23 +51,23 @@ class Grid:
             Grid.center[1] -= 1
         else:
             newRow = []
-        row = 1
-        for col in range(len(Grid.grid[-1])):
-            if (random.random() <= Grid.density):
-                newRow.append(GridSquare(-2, -1))
-            else:
-                newRow.append(GridSquare(-2, -2))
+            row = 1
+            for col in range(len(Grid.grid[-1])):
+                if (random.random() <= Grid.density):
+                    newRow.append(GridSquare(-2, -1))
+                else:
+                    newRow.append(GridSquare(-2, -2))
 
-        Grid.grid.insert(1, newRow)
+            Grid.grid.insert(1, newRow)
 
-        for col in range(1, len(Grid.grid[-2])-1):
-            if (Grid.grid[row][col].value != -1):
-                    Grid.grid[row][col].getNeighbors(Grid.size[0], Grid.size[1], col, row)
-                    numMines = 0
-                    for nx, ny in Grid.grid[row][col].neighbors:
-                        if Grid.grid[ny][nx].value == -1:
-                            numMines += 1
-                    Grid.grid[row][col].value = numMines
+            for col in range(1, len(Grid.grid[-2])-1):
+                if (Grid.grid[row][col].value != -1):
+                        Grid.grid[row][col].getNeighbors(Grid.size[0], Grid.size[1], col, row)
+                        numMines = 0
+                        for nx, ny in Grid.grid[row][col].neighbors:
+                            if Grid.grid[ny][nx].value == -1:
+                                numMines += 1
+                        Grid.grid[row][col].value = numMines
 
     
     def addBottomRow():
