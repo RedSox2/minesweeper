@@ -102,9 +102,50 @@ class Grid:
              
         
     def addLeftRow():
-        pass
+        if Grid.center[0] > 1:
+            Grid.center[0] -= 1
+        else:
+            Grid.size[0] += 1
+
+            col = 1
+            for row in range(len(Grid.grid)):
+                if (random.random() <= Grid.density):
+                    Grid.grid[row].insert(0, GridSquare(-2, -1))
+                else:
+                    Grid.grid[row].insert(0, GridSquare(-2, -2))
+            
+            for row in range(1, len(Grid.grid)-1):
+                if (Grid.grid[row][col].value != -1):
+                        Grid.grid[row][col].getNeighbors(Grid.size[0], Grid.size[1], col, row)
+                        numMines = 0
+                        for nx, ny in Grid.grid[row][col].neighbors:
+                            if Grid.grid[ny][nx].value == -1:
+                                numMines += 1
+                        Grid.grid[row][col].value = numMines
+            print('')
+
 
     def addRightRow():
-        pass
+        if Grid.center[0]+20 < Grid.size[0]-2:
+            Grid.center[0] += 1
+        else:
+            Grid.size[0] += 1
+            Grid.center[0] += 1
 
-    
+            col = len(Grid.grid[0])-1
+            for row in range(len(Grid.grid)):
+                if (random.random() <= Grid.density):
+                    Grid.grid[row].append(GridSquare(-2, -1))
+                else:
+                    Grid.grid[row].append(GridSquare(-2, -2))
+            
+            for row in range(1, len(Grid.grid)-1):
+                if (Grid.grid[row][col].value != -1):
+                        Grid.grid[row][col].getNeighbors(Grid.size[0], Grid.size[1], col, row)
+                        numMines = 0
+                        for nx, ny in Grid.grid[row][col].neighbors:
+                            if Grid.grid[ny][nx].value == -1:
+                                numMines += 1
+                        Grid.grid[row][col].value = numMines
+            print('')
+
