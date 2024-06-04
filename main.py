@@ -18,14 +18,27 @@ def clearSquares(square: GridSquare, seen: set[GridSquare], x, y):
     seen = set(seen)
     seen.add(square)
     square.getNeighbors(Grid.size[0], Grid.size[1], x, y)
+
+    if not y > 1:
+        Grid.addTopRow()
+        Grid.center[1] += 1
+    if not x > 1:
+        Grid.addLeftRow()
+        Grid.center[0] += 1
+    if not y < Grid.size[1]-2:
+        Grid.addBottomRow()
+        Grid.center[1] -= 1
+    if not x < Grid.size[0]-2:
+        Grid.addRightRow()
+        Grid.center[0] -= 1
+
     for ncol, nrow in square.neighbors:
         
         if (neighborSquare := Grid.grid[nrow][ncol]).value == 0 and neighborSquare not in seen:
             seen.add(neighborSquare)
             clearSquares(neighborSquare, seen, ncol, nrow)
-        else: 
+        elif neighborSquare not in seen and neighborSquare.value != -1: 
             seen.add(neighborSquare := Grid.grid[nrow][ncol])
-            print("clearing")
             neighborSquare.current = neighborSquare.value
     return 
 
@@ -115,7 +128,7 @@ class Images:
 
 Images.scale(grid_interval-1)
 
-Grid.generateStartingGrid(.2)
+Grid.generateStartingGrid(0.2)
 
 draw_grid(grid_interval*X, grid_interval*Y, grey_grid)
 
