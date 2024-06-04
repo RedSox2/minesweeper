@@ -72,29 +72,33 @@ class Grid:
 
     
     def addBottomRow():
+
+        if Grid.center[1]+20 < Grid.size[1]-2:
+            Grid.center[1] += 1
         
-        Grid.size[1] += 1
-        Grid.center[1] += 1
+        else:
+            Grid.size[1] += 1
+            Grid.center[1] += 1
 
-        newRow = []
-        row = len(Grid.grid)-1
-        for col in range(len(Grid.grid[-1])):
-            if (random.random() <= Grid.density):
-                newRow.append(GridSquare(-2, -1))
-            else:
-                newRow.append(GridSquare(-2, -2))
+            newRow = []
+            row = len(Grid.grid)-1
+            for col in range(len(Grid.grid[-1])):
+                if (random.random() <= Grid.density):
+                    newRow.append(GridSquare(-2, -1))
+                else:
+                    newRow.append(GridSquare(-2, -2))
 
-        Grid.grid.append(newRow)
+            Grid.grid.append(newRow)
 
-        for col in range(1, len(Grid.grid[-2])-1):
-            if (Grid.grid[row][col].value != -1):
-                    Grid.grid[row][col].getNeighbors(Grid.size[0], Grid.size[1], col, row)
-                    numMines = 0
-                    for nx, ny in Grid.grid[row][col].neighbors:
-                        if Grid.grid[ny][nx].value == -1:
-                            numMines += 1
-                    Grid.grid[row][col].value = numMines
-        print('')
+            for col in range(1, len(Grid.grid[-2])-1):
+                if (Grid.grid[row][col].value != -1):
+                        Grid.grid[row][col].getNeighbors(Grid.size[0], Grid.size[1], col, row)
+                        numMines = 0
+                        for nx, ny in Grid.grid[row][col].neighbors:
+                            if Grid.grid[ny][nx].value == -1:
+                                numMines += 1
+                        Grid.grid[row][col].value = numMines
+            print('')
              
         
     def addLeftRow():
