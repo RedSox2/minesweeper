@@ -126,6 +126,6 @@ while True:
 
     for row in range(0+Grid.center[1],20+Grid.center[1]):
         for col in range(0+Grid.center[0],20+Grid.center[0]):
-            screen.blit(Images.squares[Grid.grid[row][col].current], ((col-Grid.center[0])*grid_interval, (row-Grid.center[1])*grid_interval))
+            screen.blit(Images.squares[Grid.grid[row][col].value], ((col-Grid.center[0])*grid_interval, (row-Grid.center[1])*grid_interval))
 
     pygame.display.update()

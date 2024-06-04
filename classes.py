@@ -59,7 +59,7 @@ class Grid:
             else:
                 newRow.append(GridSquare(-2, -2))
 
-        Grid.grid.insert(newRow, 1)
+        Grid.grid.insert(1, newRow)
 
         for col in range(1, len(Grid.grid[-2])-1):
             if (Grid.grid[row][col].value != -1):
