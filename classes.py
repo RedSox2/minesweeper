@@ -2,9 +2,10 @@ import random
 import pygame
 
 class Sound:
-    def __init__(self, start: str, click: str, lose: str):
-        self.start = pygame.mixer.Sound(start)
-        self.click = pygame.mixer.Sound(click)
+    def __init__(self, open, open_many, lose,  flag):
+        self.open = pygame.mixer.Sound(open)
+        self.open_many = pygame.mixer.Sound(open_many)
+        self.flag = pygame.mixer.Sound(flag)
         self.lose = pygame.mixer.Sound(lose)
 
 class GridSquare:

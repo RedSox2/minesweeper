@@ -70,6 +70,7 @@ def lost():
     screen.blit(lose, lose_rect)
     screen.blit(score, score_rect)
     pygame.display.update()
+    sound.lose.play()
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -88,6 +89,7 @@ window_height = Y*grid_interval
 screen = pygame.display.set_mode((window_width, window_height))
 pygame.display.set_caption("MINESWEEPER")
 
+sound = Sound("open.wav", "open_many.wav", "lose.wav", "flag.wav")
 font_size = 350*window_height//1440
 font = pygame.font.Font("8bit.ttf", font_size)
 time_font = pygame.font.Font("8bit.ttf", font_size//3)
@@ -157,14 +159,17 @@ while True:
             if event.button == 1:
                 if (selectedSquare := Grid.grid[selectedRow][selectedCol]).current == -2:
                     if selectedSquare.value == 0:
+                        sound.open_many.play()
                         clearSquares(selectedSquare, set(), selectedCol, selectedRow)
                     elif selectedSquare.value == -1: 
                       lost()  
                     else:
+                        sound.open.play()
                         selectedSquare.current = Grid.grid[selectedRow][selectedCol].value
                 
 
             elif event.button == 3:
+                sound.flag.play()
                 if (selectedSquare := Grid.grid[selectedRow][selectedCol]).current == -3:
                     selectedSquare.current = -2
                 else: 
