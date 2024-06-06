@@ -55,8 +55,8 @@ class Grid:
                             numMines += 1
                     Grid.grid[row][col].value = numMines
 
-    def addTopRow():
-        if (Grid.center[1] > 1):
+    def addTopRow(override=False):
+        if (Grid.center[1] > 1) and not override:
             Grid.center[1] -= 1
         else:
             Grid.size[1] += 1
@@ -80,9 +80,9 @@ class Grid:
                         Grid.grid[row][col].value = numMines
 
     
-    def addBottomRow():
+    def addBottomRow(override=False):
 
-        if Grid.center[1]+20 < Grid.size[1]-2:
+        if Grid.center[1]+20 < Grid.size[1]-2 and not override:
             Grid.center[1] += 1
         
         else:
@@ -110,8 +110,8 @@ class Grid:
             print('')
              
         
-    def addLeftRow():
-        if Grid.center[0] > 1:
+    def addLeftRow(override=False):
+        if Grid.center[0] > 1 and not override:
             Grid.center[0] -= 1
         else:
             Grid.size[0] += 1
@@ -134,8 +134,8 @@ class Grid:
             print('')
 
 
-    def addRightRow():
-        if Grid.center[0]+20 < Grid.size[0]-2:
+    def addRightRow(override=False):
+        if Grid.center[0]+20 < Grid.size[0]-2 and not override:
             Grid.center[0] += 1
         else:
             Grid.size[0] += 1

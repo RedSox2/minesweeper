@@ -20,30 +20,29 @@ def draw_grid(window_w, window_h, color):
 def iter_field(fld):
     return [(x_, y_, n) for x_, a_ in enumerate(fld) for y_, n in enumerate(a_)]
 
-def clearSquares(square: GridSquare, seen: set[GridSquare], x, y):
+seen = set()
+def clearSquares(square: GridSquare, x, y):
     square.current = square.value
-    seen = set(seen)
     seen.add(square)
 
-    if not y > 2:
-        Grid.addTopRow()
+    if not y > 1:
+        Grid.addTopRow(override=True)
         Grid.center[1] += 1
-    if not x > 2:
-        Grid.addLeftRow()
+    if not x > 1:
+        Grid.addLeftRow(override=True)
         Grid.center[0] += 1
-    if not y < Grid.size[1]-3:
-        Grid.addBottomRow()
+    if not y < Grid.size[1]-2:
+        Grid.addBottomRow(override=True)
         Grid.center[1] -= 1
-    if not x < Grid.size[0]-3:
-        Grid.addRightRow()
+    if not x < Grid.size[0]-2:
+        Grid.addRightRow(override=True)
         Grid.center[0] -= 1
 
     square.getNeighbors(Grid.size[0], Grid.size[1], x, y)
     for ncol, nrow in square.neighbors:
         
         if (neighborSquare := Grid.grid[nrow][ncol]).value == 0 and neighborSquare not in seen:
-            seen.add(neighborSquare)
-            clearSquares(neighborSquare, seen, ncol, nrow)
+            clearSquares(neighborSquare, ncol, nrow)
             
         elif neighborSquare not in seen and neighborSquare.value != -1: 
             seen.add(neighborSquare)
@@ -61,7 +60,7 @@ def lost():
                 else:
                     score -= 10
             elif square.current != -2:
-                score += square.current ** 1.55
+                score += (square.current+1) ** 1.55
     intScore = round(score)
     print(f"Your score was: {intScore}")
 
@@ -193,8 +192,6 @@ while True:
             if event.key == pygame.K_a:
                 Grid.addLeftRow()
             if event.key == pygame.K_s:
-                # print("typed")
-
                 Grid.addBottomRow()
             if event.key == pygame.K_d:
                 Grid.addRightRow()
@@ -207,7 +204,7 @@ while True:
                 if (selectedSquare := Grid.grid[selectedRow][selectedCol]).current == -2:
                     if selectedSquare.value == 0:
                         sound.open_many.play()
-                        clearSquares(selectedSquare, set(), selectedCol, selectedRow)
+                        clearSquares(selectedSquare, selectedCol, selectedRow)
                         particles.create_collision_particles(pos=(event.pos[0], event.pos[1]))
                     elif selectedSquare.value == -1: 
                         particles.create_collision_particles(pos=(event.pos[0], event.pos[1]))
