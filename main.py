@@ -1,3 +1,4 @@
+import math
 import pygame
 from classes import *
 from cryptography.fernet import Fernet
@@ -99,6 +100,13 @@ def lost():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
+        draw_grid(grid_interval*X, grid_interval*Y, grey_grid)
+        for row in range(0+Grid.center[1],20+Grid.center[1]):
+            for col in range(0+Grid.center[0],20+Grid.center[0]):
+                screen.blit(Images.squares[Grid.grid[row][col].current], ((col-Grid.center[0])*grid_interval, (row-Grid.center[1])*grid_interval))
+        particles.update(1/60)
+        clock.tick(60)
+        pygame.display.update()
 
 pygame.init()
 
@@ -111,6 +119,7 @@ window_height = Y*grid_interval
 
 screen = pygame.display.set_mode((window_width, window_height))
 pygame.display.set_caption("MINESWEEPER")
+clock = pygame.time.Clock()
 
 sound = Sound("open.wav", "open_many.wav", "lose.wav", "flag.wav")
 font_size = 350*window_height//1440
@@ -126,6 +135,8 @@ lose_rect = lose.get_rect()
 lose_rect.center = (window_width // 2, window_height // 3)
 
 grey_grid = (128, 128, 128)
+
+particles = ParticleSystem(screen, lifetime=2, start_color=(138, 138, 138), end_color=(138, 138, 138), start_radius=5, particle_count=20, speed=40, acc=(0, 20))
 
 class Images:
     
@@ -192,11 +203,14 @@ while True:
                     if selectedSquare.value == 0:
                         sound.open_many.play()
                         clearSquares(selectedSquare, set(), selectedCol, selectedRow)
+                        particles.create_collision_particles(pos=(event.pos[0], event.pos[1]))
                     elif selectedSquare.value == -1: 
-                      lost()  
+                        particles.create_collision_particles(pos=(event.pos[0], event.pos[1]))
+                        lost()  
                     else:
                         sound.open.play()
                         selectedSquare.current = Grid.grid[selectedRow][selectedCol].value
+                        particles.create_collision_particles(pos=(event.pos[0], event.pos[1]))
                 
 
             elif event.button == 3:
@@ -206,8 +220,11 @@ while True:
                 elif (selectedSquare.current == -2):
                     selectedSquare.current = -3
 
+    draw_grid(grid_interval*X, grid_interval*Y, grey_grid)
     for row in range(0+Grid.center[1],20+Grid.center[1]):
         for col in range(0+Grid.center[0],20+Grid.center[0]):
             screen.blit(Images.squares[Grid.grid[row][col].current], ((col-Grid.center[0])*grid_interval, (row-Grid.center[1])*grid_interval))
-
+    #particles.create_collision_particles(pos=(200, 200))
+    particles.update(1/60)
     pygame.display.update()
+    clock.tick(60)
