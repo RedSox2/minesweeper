@@ -50,11 +50,12 @@ def lost():
         for col, square in enumerate(Grid.grid[row]):
             if square.current == -3:
                 if square.value == -1:
-                    score += 1
+                    score += 2
                 else:
-                    score -= 1
+                    score -= 10
             elif square.current != -2:
-                score += 1
+                score += square.current ** 1.55
+    score = round(score)
     print(f"Your score was: {score}")
 
     score = time_font.render(f"Your score was: {score}", True, lose_color)
@@ -173,7 +174,7 @@ while True:
                 sound.flag.play()
                 if (selectedSquare := Grid.grid[selectedRow][selectedCol]).current == -3:
                     selectedSquare.current = -2
-                else: 
+                elif (selectedSquare.current == -2):
                     selectedSquare.current = -3
 
     for row in range(0+Grid.center[1],20+Grid.center[1]):
