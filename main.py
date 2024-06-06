@@ -1,7 +1,13 @@
 import pygame
 from classes import *
+from cryptography.fernet import Fernet
+from datetime import datetime
+from time import sleep
 
 grid_interval = 40
+
+f = Fernet('nIdceQJdk0GCuhLi31hP8k_K00MtIwveEHszdpM1I24='.encode())
+
 
 def draw_grid(window_w, window_h, color):
     block_size = grid_interval  # Set the size of the grid block
@@ -55,10 +61,17 @@ def lost():
                     score -= 10
             elif square.current != -2:
                 score += square.current ** 1.55
-    score = round(score)
-    print(f"Your score was: {score}")
+    intScore = round(score)
+    print(f"Your score was: {intScore}")
 
-    score = time_font.render(f"Your score was: {score}", True, lose_color)
+    with open('highscore.txt', 'r') as file:
+        data = file.read().encode()
+    prevHighScore = int(f.decrypt(data).decode().split()[-1])
+
+                
+    
+
+    score = time_font.render(f"Your score was: {intScore}", True, lose_color)
     score_rect = score.get_rect()
     score_rect.center = (window_width // 2, window_height // 2)
 
@@ -73,6 +86,14 @@ def lost():
     screen.blit(score, score_rect)
     pygame.display.update()
     sound.lose.play()
+    if intScore > prevHighScore:
+        print("You got a highscore!")
+        name = input('Please enter your name for the record: ')
+        date = str(datetime.now())
+
+        toWrite = f'Name: {name}\nDate: {date}\nScore: {intScore}'.encode()
+        with open('highscore.txt', 'w') as file:
+            file.write(f.encrypt(toWrite).decode())
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -135,6 +156,14 @@ Images.scale(grid_interval-1)
 Grid.generateStartingGrid(0.2)
 
 draw_grid(grid_interval*X, grid_interval*Y, grey_grid)
+
+
+with open('highscore.txt', 'r') as file:
+    highscore = file.read().encode()
+    highscore = f.decrypt(highscore).decode()
+    print("The current highscore is:")
+    print(highscore)
+    sleep(5)
 
 while True:
     for event in pygame.event.get():
