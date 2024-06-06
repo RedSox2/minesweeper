@@ -1,13 +1,23 @@
 import math
 import pygame
 from classes import *
-#from cryptography.fernet import Fernet
+from cryptography.fernet import Fernet
 from datetime import datetime
 from time import sleep
+import os
+import sys
 
 grid_interval = 40
 
-#f = Fernet('nIdceQJdk0GCuhLi31hP8k_K00MtIwveEHszdpM1I24='.encode())
+f = Fernet('nIdceQJdk0GCuhLi31hP8k_K00MtIwveEHszdpM1I24='.encode())
+
+def resource_path(relative_path):
+    try:
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, relative_path)
 
 
 def draw_grid(window_w, window_h, color):
@@ -64,9 +74,9 @@ def lost():
     intScore = round(score)
     print(f"Your score was: {intScore}")
 
-    '''with open('highscore.txt', 'r') as file:
+    with open(resource_path('highscore.txt'), 'r') as file:
         data = file.read().encode()
-    prevHighScore = int(f.decrypt(data).decode().split()[-1])'''
+    prevHighScore = int(f.decrypt(data).decode().split()[-1])
 
                 
     
@@ -86,19 +96,20 @@ def lost():
     screen.blit(score, score_rect)
     pygame.display.update()
     sound.lose.play()
-    '''if intScore > prevHighScore:
+    if intScore > prevHighScore:
         print("You got a highscore!")
         name = input('Please enter your name for the record: ')
         date = str(datetime.now())
 
         toWrite = f'Name: {name}\nDate: {date}\nScore: {intScore}'.encode()
         with open('highscore.txt', 'w') as file:
-            file.write(f.encrypt(toWrite).decode())'''
+            file.write(f.encrypt(toWrite).decode())
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
-                quit()
+                sys.exit()
+
         draw_grid(grid_interval*X, grid_interval*Y, grey_grid)
         for row in range(0+Grid.center[1],20+Grid.center[1]):
             for col in range(0+Grid.center[0],20+Grid.center[0]):
@@ -173,19 +184,19 @@ Grid.generateStartingGrid(0.2)
 draw_grid(grid_interval*X, grid_interval*Y, grey_grid)
 
 
-'''with open('highscore.txt', 'r') as file:
+with open(resource_path('highscore.txt'), 'r') as file:
     highscore = file.read().encode()
     highscore = f.decrypt(highscore).decode()
     print("The current highscore is:")
     print(highscore)
-    sleep(5)'''
+    sleep(5)
 
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
-            quit()
-        
+            sys.exit()
+
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_w:
                 Grid.addTopRow()
