@@ -192,13 +192,17 @@ class ParticleSystem:
                                        start_radius=self.start_radius, end_radius=self.end_radius,
                                        border_width=self.border_width))
 
-    def create_collision_particles(self, *, pos):
+    def create_collision_particles(self, *, pos, randomness):
         for i in range(0, self.particle_count):
             angle = random.random() * math.tau
             random_vel = (math.cos(angle) * (random.random() * self.speed), math.sin(angle) * (random.random() * self.speed))
 
+            color = [self.start_color[0] + ((random.random()-0.5)*2 * randomness), self.start_color[1] + ((random.random()-0.5)*2 * randomness), self.start_color[2] + ((random.random()-0.5)*2 * randomness)]
+
+            for i in range(3):
+                color[i] = 0 if color[i] < 0 else (255 if color[i] > 255 else color[i])
             self.particles.append(
-                Particle(self.screen, pos=pos, lifetime=self.lifetime, vel=random_vel, acc=self.acc, start_color=self.start_color,
+                Particle(self.screen, pos=pos, lifetime=self.lifetime, vel=random_vel, acc=self.acc, start_color=color,
                          end_color=self.end_color, start_radius=self.start_radius, end_radius=self.end_radius,
                          border_width=self.border_width))
 

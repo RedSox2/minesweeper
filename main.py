@@ -1,7 +1,7 @@
 import math
 import pygame
 from classes import *
-from cryptography.fernet import Fernet
+#from cryptography.fernet import Fernet
 from datetime import datetime
 from time import sleep
 import os
@@ -9,7 +9,7 @@ import sys
 
 grid_interval = 40
 
-f = Fernet('nIdceQJdk0GCuhLi31hP8k_K00MtIwveEHszdpM1I24='.encode())
+#f = Fernet('nIdceQJdk0GCuhLi31hP8k_K00MtIwveEHszdpM1I24='.encode())
 
 def resource_path(relative_path):
     try:
@@ -59,6 +59,14 @@ def clearSquares(square: GridSquare, x, y):
             neighborSquare.current = neighborSquare.value
     return 
 
+def openSquareParticles(particleSystem, event):
+    topLeftX = event.pos[0]//grid_interval * grid_interval
+    topLeftY = event.pos[1]//grid_interval * grid_interval
+    for x in range(0,40):
+        for y in range(0,40):
+            if random.random() < 0.0125:
+                particleSystem.create_collision_particles(pos=(topLeftX+x, topLeftY+y), randomness=0)
+
 
 def lost():
     score = 0
@@ -74,9 +82,9 @@ def lost():
     intScore = round(score)
     print(f"Your score was: {intScore}")
 
-    with open(resource_path('highscore.txt'), 'r') as file:
+    '''with open(resource_path('highscore.txt'), 'r') as file:
         data = file.read().encode()
-    prevHighScore = int(f.decrypt(data).decode().split()[-1])
+    prevHighScore = int(f.decrypt(data).decode().split()[-1])'''
 
                 
     
@@ -96,14 +104,14 @@ def lost():
     screen.blit(score, score_rect)
     pygame.display.update()
     sound.lose.play()
-    if intScore > prevHighScore:
+    '''if intScore > prevHighScore:
         print("You got a highscore!")
         name = input('Please enter your name for the record: ')
         date = str(datetime.now())
 
         toWrite = f'Name: {name}\nDate: {date}\nScore: {intScore}'.encode()
         with open('highscore.txt', 'w') as file:
-            file.write(f.encrypt(toWrite).decode())
+            file.write(f.encrypt(toWrite).decode())'''
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -117,7 +125,9 @@ def lost():
                     screen.blit(Images.squares[-1], ((col-Grid.center[0])*grid_interval, (row-Grid.center[1])*grid_interval))
                 else:
                     screen.blit(Images.squares[Grid.grid[row][col].current], ((col-Grid.center[0])*grid_interval, (row-Grid.center[1])*grid_interval))
-        particles.update(1/60)
+        particlesMine1.update(1/60)
+        particlesMine2.update(1/60)
+        particlesNormal.update(1/60)
         screen.blit(lose, lose_rect)
         screen.blit(score, score_rect)
         clock.tick(60)
@@ -151,7 +161,9 @@ lose_rect.center = (window_width // 2, window_height // 3)
 
 grey_grid = (128, 128, 128)
 
-particles = ParticleSystem(screen, lifetime=2, start_color=(138, 138, 138), end_color=(138, 138, 138), start_radius=5, particle_count=20, speed=40, acc=(0, 20))
+particlesNormal = ParticleSystem(screen, lifetime=1, start_color=(138, 138, 138), end_color=(138, 138, 138), start_radius=5, particle_count=1, speed=75, acc=(0, 0))
+particlesMine1 = ParticleSystem(screen, lifetime=6, start_color=(230, 0, 0), end_color=(138, 138, 138), start_radius=10, particle_count=200, speed=300, acc=(0, 100))
+particlesMine2 = ParticleSystem(screen, lifetime=6, start_color=(230, 165, 0), end_color=(138, 138, 138), start_radius=10, particle_count=200, speed=300, acc=(0, 100))
 
 class Images:
     
@@ -184,12 +196,12 @@ Grid.generateStartingGrid(0.2)
 draw_grid(grid_interval*X, grid_interval*Y, grey_grid)
 
 
-with open(resource_path('highscore.txt'), 'r') as file:
+'''with open(resource_path('highscore.txt'), 'r') as file:
     highscore = file.read().encode()
     highscore = f.decrypt(highscore).decode()
     print("The current highscore is:")
     print(highscore)
-    sleep(5)
+    sleep(5)'''
 
 while True:
     for event in pygame.event.get():
@@ -216,14 +228,15 @@ while True:
                     if selectedSquare.value == 0:
                         sound.open_many.play()
                         clearSquares(selectedSquare, selectedCol, selectedRow)
-                        particles.create_collision_particles(pos=(event.pos[0], event.pos[1]))
+                        openSquareParticles(particlesNormal, event)
                     elif selectedSquare.value == -1: 
-                        particles.create_collision_particles(pos=(event.pos[0], event.pos[1]))
+                        particlesMine1.create_collision_particles(pos=(event.pos[0], event.pos[1]), randomness=50)
+                        particlesMine2.create_collision_particles(pos=(event.pos[0], event.pos[1]), randomness=50)
                         lost()  
                     else:
                         sound.open.play()
                         selectedSquare.current = Grid.grid[selectedRow][selectedCol].value
-                        particles.create_collision_particles(pos=(event.pos[0], event.pos[1]))
+                        openSquareParticles(particlesNormal, event)
                 
 
             elif event.button == 3:
@@ -238,6 +251,6 @@ while True:
         for col in range(0+Grid.center[0],20+Grid.center[0]):
             screen.blit(Images.squares[Grid.grid[row][col].current], ((col-Grid.center[0])*grid_interval, (row-Grid.center[1])*grid_interval))
     #particles.create_collision_particles(pos=(200, 200))
-    particles.update(1/60)
+    particlesNormal.update(1/60)
     pygame.display.update()
     clock.tick(60)
