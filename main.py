@@ -1,15 +1,11 @@
-import math
 import pygame
 from classes import *
-#from cryptography.fernet import Fernet
-from datetime import datetime
 from time import sleep
 import os
 import sys
 
 grid_interval = 40
 
-#f = Fernet('nIdceQJdk0GCuhLi31hP8k_K00MtIwveEHszdpM1I24='.encode())
 
 def resource_path(relative_path):
     try:
@@ -82,13 +78,6 @@ def lost():
     intScore = round(score)
     print(f"Your score was: {intScore}")
 
-    '''with open(resource_path('highscore.txt'), 'r') as file:
-        data = file.read().encode()
-    prevHighScore = int(f.decrypt(data).decode().split()[-1])'''
-
-                
-    
-
     score = time_font.render(f"Your score was: {intScore}", True, lose_color)
     score_rect = score.get_rect()
     score_rect.center = (window_width // 2, window_height // 2)
@@ -104,14 +93,7 @@ def lost():
     screen.blit(score, score_rect)
     pygame.display.update()
     sound.lose.play()
-    '''if intScore > prevHighScore:
-        print("You got a highscore!")
-        name = input('Please enter your name for the record: ')
-        date = str(datetime.now())
-
-        toWrite = f'Name: {name}\nDate: {date}\nScore: {intScore}'.encode()
-        with open('highscore.txt', 'w') as file:
-            file.write(f.encrypt(toWrite).decode())'''
+    
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -146,10 +128,10 @@ screen = pygame.display.set_mode((window_width, window_height))
 pygame.display.set_caption("MINESWEEPER")
 clock = pygame.time.Clock()
 
-sound = Sound("open.wav", "open_many.wav", "lose.wav", "flag.wav")
+sound = Sound(resource_path("open.wav"), resource_path("open_many.wav"), resource_path("lose.wav"), resource_path("flag.wav"))
 font_size = 350*window_height//1440
-font = pygame.font.Font("8bit.ttf", font_size)
-time_font = pygame.font.Font("8bit.ttf", font_size//3)
+font = pygame.font.Font(resource_path("8bit.ttf"), font_size)
+time_font = pygame.font.Font(resource_path("8bit.ttf"), font_size//3)
 
 lose_color = (200, 0, 0)
 
@@ -169,19 +151,19 @@ class Images:
     
     squares = [
 
-        pygame.image.load("open.jpg"),
-        pygame.image.load('1.jpg'),
-        pygame.image.load('2.jpg'),
-        pygame.image.load('3.jpg'),
-        pygame.image.load('4.jpg'),
-        pygame.image.load('5.jpg'),
-        pygame.image.load('6.jpg'),
-        pygame.image.load('7.jpg'),
-        pygame.image.load('8.jpg'),
+        pygame.image.load(resource_path('open.jpg')),
+        pygame.image.load(resource_path('1.jpg')),
+        pygame.image.load(resource_path('2.jpg')),
+        pygame.image.load(resource_path('3.jpg')),
+        pygame.image.load(resource_path('4.jpg')),
+        pygame.image.load(resource_path('5.jpg')),
+        pygame.image.load(resource_path('6.jpg')),
+        pygame.image.load(resource_path('7.jpg')),
+        pygame.image.load(resource_path('8.jpg')),
 
-        pygame.image.load("flag.jpg"),
-        pygame.image.load("unopened.jpg"),
-        pygame.image.load("mine.jpg")
+        pygame.image.load(resource_path('flag.jpg')),
+        pygame.image.load(resource_path('unopened.jpg')),
+        pygame.image.load(resource_path('mine.jpg'))
 
         ]
     
@@ -194,14 +176,6 @@ Images.scale(grid_interval-1)
 Grid.generateStartingGrid(0.2)
 
 draw_grid(grid_interval*X, grid_interval*Y, grey_grid)
-
-
-'''with open(resource_path('highscore.txt'), 'r') as file:
-    highscore = file.read().encode()
-    highscore = f.decrypt(highscore).decode()
-    print("The current highscore is:")
-    print(highscore)
-    sleep(5)'''
 
 while True:
     for event in pygame.event.get():
