@@ -6,16 +6,6 @@ import sys
 
 grid_interval = 40
 
-
-def resource_path(relative_path):
-    try:
-        base_path = sys._MEIPASS
-    except Exception:
-        base_path = os.path.abspath(".")
-
-    return os.path.join(base_path, relative_path)
-
-
 def draw_grid(window_w, window_h, color):
     block_size = grid_interval  # Set the size of the grid block
     for width in range(0, window_w, block_size):
@@ -128,10 +118,10 @@ screen = pygame.display.set_mode((window_width, window_height))
 pygame.display.set_caption("MINESWEEPER")
 clock = pygame.time.Clock()
 
-sound = Sound(resource_path("open.wav"), resource_path("open_many.wav"), resource_path("lose.wav"), resource_path("flag.wav"))
+sound = Sound("open.wav", "open_many.wav", "lose.wav", "flag.wav")
 font_size = 350*window_height//1440
-font = pygame.font.Font(resource_path("8bit.ttf"), font_size)
-time_font = pygame.font.Font(resource_path("8bit.ttf"), font_size//3)
+font = pygame.font.Font("8bit.ttf", font_size)
+time_font = pygame.font.Font("8bit.ttf", font_size//3)
 
 lose_color = (200, 0, 0)
 
@@ -151,19 +141,19 @@ class Images:
     
     squares = [
 
-        pygame.image.load(resource_path('open.jpg')),
-        pygame.image.load(resource_path('1.jpg')),
-        pygame.image.load(resource_path('2.jpg')),
-        pygame.image.load(resource_path('3.jpg')),
-        pygame.image.load(resource_path('4.jpg')),
-        pygame.image.load(resource_path('5.jpg')),
-        pygame.image.load(resource_path('6.jpg')),
-        pygame.image.load(resource_path('7.jpg')),
-        pygame.image.load(resource_path('8.jpg')),
+        pygame.image.load('open.jpg'),
+        pygame.image.load('1.jpg'),
+        pygame.image.load('2.jpg'),
+        pygame.image.load('3.jpg'),
+        pygame.image.load('4.jpg'),
+        pygame.image.load('5.jpg'),
+        pygame.image.load('6.jpg'),
+        pygame.image.load('7.jpg'),
+        pygame.image.load('8.jpg'),
 
-        pygame.image.load(resource_path('flag.jpg')),
-        pygame.image.load(resource_path('unopened.jpg')),
-        pygame.image.load(resource_path('mine.jpg'))
+        pygame.image.load('flag.jpg'),
+        pygame.image.load('unopened.jpg'),
+        pygame.image.load('mine.jpg')
 
         ]
     
